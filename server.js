@@ -25,7 +25,7 @@ Subways.aggregate([{
     $geoNear: {
         near: {
             /*type: "Point",*/
-            coordinates: [lng, lat]
+            coordinates: [-73.989951, 40.734673]
         },
         spherical: true,
         distanceField: 'distance.dist',
