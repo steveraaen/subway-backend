@@ -16,11 +16,11 @@ mongoose.connect('mongodb://heroku_dd83dt7l:1qcrmml3h73rgcgdjing0s868u@ds159776.
 });
 
 app.get("/api/stops/:coordinates?", function(req, res) {
-/*    console.log(parseFloat(req.query.coordinates))
+    console.log(parseFloat(req.query.coordinates))
     var lat = parseFloat(req.query.coordinates[1]).toFixed(6)
-    var lng = parseFloat(req.query.coordinates[0]).toFixed(6)*/
+    var lng = parseFloat(req.query.coordinates[0]).toFixed(6)
 
-   /* if(req.query.coordinates) {*/
+    if(req.query.coordinates) {
 Subways.aggregate([{
     $geoNear: {
         near: {
@@ -40,7 +40,7 @@ function(error, doc) {
         res.json(doc);
     }
 })
-/*} */
+} 
 });
 
 // ------- route for selected train's schedule --------
