@@ -30,7 +30,7 @@ Subways.aggregate([{
         spherical: true,
         distanceField: 'distance.dist',
         distanceMultiplier: 0.00062,
-        num: 3 }
+        num: 5 }
 }],
 function(error, doc) {
     if (error) {
