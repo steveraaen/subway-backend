@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+var Mta = require('mta-gtfs');
 mongoose.Promise = require('bluebird');
 const Subways = require('./models/Subways.js');
 
@@ -14,6 +15,9 @@ mongoose.connect('mongodb://heroku_dd83dt7l:1qcrmml3h73rgcgdjing0s868u@ds159776.
 }).then(function() {
   console.log('Mongo connected via mongoose')
 });
+var mta = new Mta({
+  key: 'd95f1fb11f498729369198ba2d321657', // only needed for mta.schedule() method                 
+        });
 
 app.get("/api/stops/:coordinates?", function(req, res) {
 /*    console.log(parseFloat(req.query.coordinates))
@@ -36,29 +40,42 @@ function(error, doc) {
     if (error) {
         console.log(error);
     } else {
-        console.log(doc)
+        /*console.log(doc)*/
         res.json(doc);
     }
 })
 /*} */
 });
+app.get('/api/status', function(req, res){
+    mta.status().then(function (doc) {
+  console.log(doc);
+  res.json(doc)
+});
 
+})
 // ------- route for selected train's schedule --------
-app.get("/api/train/:station?", function(req, res) {
-console.log(req.query)
+app.get("/api/train", function(req, res) {
+var feed= 21;
+var station= "B41"
 
+/*console.log(req.query)
     var feed = parseInt(req.query.feed);
-    var station = req.query.station;
+    var station = req.query.station;*/
     console.log(feed)
     console.log(station)
 
-if(req.query.station) {
-mta.schedule(station, feed).then(function (result) {
+/*if(req.query.station) {*/
+mta.schedule("R43", 16).then(function (error, result) {
+    if(error) {
+        console.log(error)
+    } else {
   console.log(result);
-  res.json(result)
+ 
+  }
+   res.json(result)
         });
 
-    }
+/*    }*/
 });
 
 
