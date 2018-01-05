@@ -20,16 +20,17 @@ var mta = new Mta({
 });
 
 app.get("/api/stops/:coordinates?", function(req, res) {
-    /*    console.log(parseFloat(req.query.coordinates))
-        var lat = parseFloat(req.query.coordinates[1]).toFixed(6)
-        var lng = parseFloat(req.query.coordinates[0]).toFixed(6)*/
-
-    /* if(req.query.coordinates) {*/
+console.log(req.query.lng)
+console.log(req.query.lat)
+        var lat = parseFloat(req.query.lat)
+        var lng = parseFloat(req.query.lng)
+ 
+  
     Subways.aggregate([{
             $geoNear: {
-                near: {
-                    /*type: "Point",*/
-                    coordinates: [-73.989951, 40.734673]
+                near: { 
+                    type: 'Point',                  
+                    coordinates: [lng, lat]       
                 },
                 spherical: true,
                 distanceField: 'distance.dist',
@@ -45,7 +46,7 @@ app.get("/api/stops/:coordinates?", function(req, res) {
                 res.json(doc);
             }
         })
-    /*} */
+   
 });
 app.get('/api/status', function(req, res) {
     mta.status().then(function(doc) {
