@@ -56,21 +56,21 @@ app.get('/api/status', function(req, res) {
 
 })
 // ------- route for selected train's schedule --------
-app.get("/api/train", function(req, res) {
-    var feed = 21;
-    var station = "B41"
-
-    /*console.log(req.query)
+app.get("/api/train?", function(req, res) {
+ 
+    console.log(req.query)
         var feed = parseInt(req.query.feed);
-        var station = req.query.station;*/
-    console.log(feed)
-    console.log(station)
+        var id = req.query.id;
+    console.log(parseInt(req.query.feed))
+    console.log(id)
 
-    /*if(req.query.station) {*/
-mta.schedule("R43", 16).then(function (result) {
+   
+mta.schedule(id, parseInt(req.query.feed)).then(function (result) {
   console.log(result);
   res.json(result)
-        });
+        })
+        feed= "";
+        id = 0;
 });
 
 
