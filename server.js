@@ -34,8 +34,9 @@ console.log(req.query.lat)
                 },
                 spherical: true,
                 distanceField: 'distance.dist',
-                distanceMultiplier: 0.00062,
-                num: 10
+                distanceMultiplier: 0.00033642923,
+                $maxdistance: 500,
+                limit:50
             }
         }],
         function(error, doc) {
