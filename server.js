@@ -20,12 +20,11 @@ var mta = new Mta({
 });
 
 app.get("/api/stops/:coordinates?", function(req, res) {
+    if(req.query.lat) {
 console.log(req.query.lng)
 console.log(req.query.lat)
         var lat = parseFloat(req.query.lat)
-        var lng = parseFloat(req.query.lng)
- 
-  
+        var lng = parseFloat(req.query.lng) 
     Subways.aggregate([{
             $geoNear: {
                 near: { 
@@ -34,38 +33,32 @@ console.log(req.query.lat)
                 },
                 spherical: true,
                 distanceField: 'distance.dist',
-                distanceMultiplier: 0.00033642923,
-                $maxdistance: 500,
-                limit:50
+                distanceMultiplier: 0.00062,
+                num:50
             }
         }],
         function(error, doc) {
             if (error) {
                 console.log(error);
             } else {
-                /*console.log(doc)*/
+                console.log(doc)
                 res.json(doc);
             }
         })
-   
+   }
 });
 app.get('/api/status', function(req, res) {
     mta.status().then(function(doc) {
         console.log(doc);
         res.json(doc)
     });
-
 })
 // ------- route for selected train's schedule --------
 app.get("/api/train?", function(req, res) {
- 
     console.log(req.query)
         var feed = parseInt(req.query.feed);
         var id = req.query.id;
-    console.log(parseInt(req.query.feed))
-    console.log(id)
-
-   
+  
 mta.schedule(id, parseInt(req.query.feed)).then(function (result) {
   console.log(result);
   res.json(result)
@@ -74,8 +67,12 @@ mta.schedule(id, parseInt(req.query.feed)).then(function (result) {
         id = 0;
 });
 
-
 const port = process.env.PORT || 5000;
 app.listen(port);
 
 console.log(`Next Train listening on ${port}`);
+
+
+
+
+
