@@ -10,7 +10,7 @@ var StopsSchema = new Schema({
       stop_feed: {type: Number}
   },
   geometry: {
-      coordinates: {type: [Number]},
+      coordinates: {type: [Number], index: '2dsphere'},
       type: {default: "Point"
         }
      }

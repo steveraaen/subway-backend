@@ -21,20 +21,22 @@ var mta = new Mta({
 
 app.get("/api/stops/:coordinates?", function(req, res) {
     if(req.query.lat) {
-console.log(req.query.lng)
-console.log(req.query.lat)
+        console.log(req.query.lng)
+        console.log(req.query.lat)
         var lat = parseFloat(req.query.lat)
         var lng = parseFloat(req.query.lng) 
+
     Subways.aggregate([{
             $geoNear: {
                 near: { 
                     type: 'Point',                  
                     coordinates: [lng, lat]       
                 },
+                maxDistance: 1609.34,
                 spherical: true,
                 distanceField: 'distance.dist',
                 distanceMultiplier: 0.00062,
-                num:50
+                num:25
             }
         }],
         function(error, doc) {
@@ -47,6 +49,12 @@ console.log(req.query.lat)
         })
    }
 });
+
+/*app.get('/api/xfer', function(req, res) {
+
+        }
+    )*/
+
 app.get('/api/status', function(req, res) {
     mta.status().then(function(doc) {
         console.log(doc);
