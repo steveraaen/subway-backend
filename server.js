@@ -3,7 +3,6 @@ const path = require('path');
 const mongoose = require('mongoose');
 var Mta = require('mta-gtfs');
 mongoose.Promise = require('bluebird');
-const Subways = require('./models/Subways.js');
 
 const app = express();
 
@@ -15,6 +14,11 @@ mongoose.connect('mongodb://heroku_dd83dt7l:1qcrmml3h73rgcgdjing0s868u@ds159776.
 }).then(function() {
     console.log('Mongo connected via mongoose')
 });
+var Subways =require('./models/Subways.js');
+var Transfers =require('./models/Transfers.js');
+var Stopstransfers =require('./models/StopsTransfers.js');
+var Consolidated =require('./models/Consolidated.js');
+
 var mta = new Mta({
     key: 'd95f1fb11f498729369198ba2d321657', // only needed for mta.schedule() method                 
 });
@@ -49,11 +53,25 @@ app.get("/api/stops/:coordinates?", function(req, res) {
         })
    }
 });
+/*var makeConsolidated = new Consolidated() {
 
-/*app.get('/api/xfer', function(req, res) {
+}*/
 
-        }
-    )*/
+app.get('/api/xfer', function(req, res) {
+    var rte = new RegExp(".*" + req.query.route + ".*") 
+    console.log(rte)
+  Transfers.find({from_stop_id: rte, $where: "this.from_stop_id != this.to_stop_id"}, function(error, doc) {
+    // Log any errors
+    if (error) {
+      console.log(error);
+    }
+    // Or send the doc to the browser as a json object
+    else {
+        console.log(doc)
+      res.json(doc);
+    }
+  });
+})
 
 app.get('/api/status', function(req, res) {
     mta.status().then(function(doc) {

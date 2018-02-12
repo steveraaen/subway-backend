@@ -1,12 +1,16 @@
 var mongoose = require('mongoose');
+var Subways = require('./Subways.js');
 
 var Schema = mongoose.Schema;
 
 var TransferSchema = new Schema({
-from_stop_id: Number,
-to_stop_id: Number,
+
+_id: Schema.Types.ObjectId,
+from_stop_id: String,
+to_stop_id: String,
 transfer_type: Number,
-min_transfer_time: Number   
+min_transfer_time: Number,
+stops: [{ type: Schema.Types.ObjectId, ref: 'Subways' }]
 
 });
 

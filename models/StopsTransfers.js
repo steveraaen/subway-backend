@@ -1,7 +1,9 @@
 var mongoose = require('mongoose');
 
+
 var Schema = mongoose.Schema;
-var StopsSchema = new Schema({
+
+var StopstransfersSchema = new Schema({
 
   properties: {
       stop_name: {type: String},
@@ -13,9 +15,12 @@ var StopsSchema = new Schema({
       type: {default: "Point"
         }
      },
-  from_stop_id: [{ type: Schema.ObjectId, ref: 'Transfer' }]
+    from_stop_id: {type: String},
+    to_stop_id: {type: String},
+    transfer_type: {type: Number},
+    min_transfer_time: {type: Number}
 });
 
-var Stops = mongoose.model("Stops", StopsSchema);
+var Stopstransfers = mongoose.model("Stopstransfers", StopstransfersSchema);
 
-module.exports = Stops;
+module.exports = Stopstransfers;
