@@ -129,7 +129,7 @@ mta.schedule(id, parseInt(req.query.feed)).then(function (result) {
                 spherical: true,
                 distanceField: 'distance.dist',
                 distanceMultiplier: 0.00062,
-                num:25
+                num:50
             }
         }],
         function(error, doc) {
