@@ -81,6 +81,17 @@ app.post("/api/meta/:metrics?", function(req, res) {
     }
   });
 });
+app.get("/api/meta", function(req, res) {
+ Meta.find({}, function(error, doc) {
+        if (error) {
+      console.log(error);
+    }
+    else {
+        res.send(doc)
+    }
+ })
+
+});
 
 app.get('/api/xfer', function(req, res) {
     console.log(req.query.route)
