@@ -50,7 +50,7 @@ app.get("/api/stops/:coordinates?", function(req, res) {
                     type: 'Point',                  
                     coordinates: [lng, lat]       
                 },
-                /*maxDistance: 1609.34,*/
+                maxDistance: 1609.34,
                 spherical: true,
                 distanceField: 'distance.dist',
                 distanceMultiplier: 0.00062,
