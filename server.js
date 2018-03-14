@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 var Mta = require('mta-gtfs');
 mongoose.Promise = require('bluebird');
 
@@ -9,15 +10,21 @@ const app = express();
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(express.static('assets'))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.text());
+app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 mongoose.connect('mongodb://heroku_dd83dt7l:1qcrmml3h73rgcgdjing0s868u@ds159776.mlab.com:59776/heroku_dd83dt7l', {
     useMongoClient: true,
 }).then(function() {
     console.log('Mongo connected via mongoose')
 });
+var Meta =require('./models/Meta.js');
 var citibike =require('./models/Bikes.js');
 var Subways =require('./models/Subways.js');
 var Transfers =require('./models/Transfers.js');
 var Tranwithlines =require('./models/Tranwithlines.js');
+
 
 
 
@@ -60,9 +67,23 @@ app.get("/api/stops/:coordinates?", function(req, res) {
         })
    }
 });
-/*var makeConsolidated = new Consolidated() {
+app.post("/api/meta/:metrics?", function(req, res) {
+  // Create a new note and pass the req.body to the entry
+  console.log(req.body)
+  var newMeta = new Meta(req.body.metrics);
 
-}*/
+  // And save the new note the db
+  newMeta.save(function(error, doc) {
+    // Log any errors
+    if (error) {
+      console.log(error);
+    }
+    // Otherwise
+    else {
+        res.send(doc)
+    }
+  });
+});
 
 app.get('/api/xfer', function(req, res) {
     console.log(req.query.route)
