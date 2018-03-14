@@ -68,17 +68,14 @@ app.get("/api/stops/:coordinates?", function(req, res) {
    }
 });
 app.post("/api/meta/:metrics?", function(req, res) {
-  // Create a new note and pass the req.body to the entry
-  console.log(req.body)
-  var newMeta = new Meta(req.body.metrics);
 
-  // And save the new note the db
+  console.log(req.body)
+  var newMeta = new Meta(req.body);
+
   newMeta.save(function(error, doc) {
-    // Log any errors
     if (error) {
       console.log(error);
     }
-    // Otherwise
     else {
         res.send(doc)
     }

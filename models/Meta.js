@@ -3,17 +3,23 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var metaSchema = new Schema({
-
- bikeLength: Number, 
- subwayLength: Number,
- ASPLength: Number,
- busLength: Number,
- metersLength: Number,
- lng: Number,
- lat: Number,
- bikeDist: Number,
- subwayDist: Number
-
+	metrics: {
+	properties: {
+		 address: String,
+		 place_id: String,
+		 bikeLength: Number, 
+		 subwayLength: Number,
+		 ASPLength: Number,
+		 busLength: Number,
+		 metersLength: Number,
+		 bikeDist: Number,
+		 subwayDist: Number
+	},
+	geometry: {
+	    coordinates: {type: [Number], index: '2dsphere'},
+	    type: {default: "Point"}
+	 }
+	 }
 });
 
 var Meta = mongoose.model("meta", metaSchema);
