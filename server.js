@@ -50,7 +50,7 @@ app.get("/api/stops/:coordinates?", function(req, res) {
                     type: 'Point',                  
                     coordinates: [lng, lat]       
                 },
-                maxDistance: 1609.34,
+                maxDistance: 804.34,
                 spherical: true,
                 distanceField: 'distance.dist',
                 distanceMultiplier: 0.00062,
@@ -143,7 +143,7 @@ mta.schedule(id, parseInt(req.query.feed)).then(function (result) {
                     type: 'Point',                  
                     coordinates: [lng, lat]       
                 },
-                maxDistance: 1609.34,
+                maxDistance: 804.34,
                 spherical: true,
                 distanceField: 'distance.dist',
                 distanceMultiplier: 0.00062,
