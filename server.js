@@ -22,8 +22,9 @@ mongoose.connect('mongodb://heroku_dd83dt7l:1qcrmml3h73rgcgdjing0s868u@ds159776.
 var Meta =require('./models/Meta.js');
 var citibike =require('./models/Bikes.js');
 var Subways =require('./models/Subways.js');
-var Transfers =require('./models/Transfers.js');
-var Tranwithlines =require('./models/Tranwithlines.js');
+/*var Transfers =require('./models/Transfers.js');
+var Tranwithlines =require('./models/Tranwithlines.js');*/
+var busgeo =require('./models/Busses.js');
 
 
 
@@ -94,6 +95,35 @@ app.get("/api/stations/:coordinates?", function(req, res) {
         })
    }
 });
+app.get("/api/bus/:coordinates?", function(req, res) {
+    if(req.query.lat) {
+        console.log(req.query.lng)
+        console.log(req.query.lat)
+        var lat = parseFloat(req.query.lat)
+        var lng = parseFloat(req.query.lng) 
+    busgeo.aggregate([{
+            $geoNear: {
+                near: { 
+                    type: 'Point',                  
+                    coordinates: [lng, lat]       
+                },
+                maxDistance: 804.34,
+                spherical: true,
+                distanceField: 'distance.dist',
+                distanceMultiplier: 0.00062,
+                num:25
+            }
+        }],
+        function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(doc)
+                res.json(doc);
+            }
+        })
+   }
+});
 app.post("/api/meta/:metrics?", function(req, res) {
 
   console.log(req.body)
@@ -117,7 +147,6 @@ app.get("/api/meta", function(req, res) {
         res.send(doc)
     }
  })
-
 });
 
 app.get('/api/xfer', function(req, res) {
@@ -150,6 +179,7 @@ app.get('/api/xfer', function(req, res) {
     }
   });*/
 })
+
 
 app.get('/api/status', function(req, res) {
     mta.status().then(function(doc) {
