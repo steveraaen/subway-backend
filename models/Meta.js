@@ -11,6 +11,7 @@ var metaSchema = new Schema({
 		 subwayLength: Number,
 		 ASPLength: Number,
 		 busLength: Number,
+		 busDist: Number,
 		 metersLength: Number,
 		 bikeDist: Number,
 		 subwayDist: Number
