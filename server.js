@@ -43,7 +43,34 @@ app.get("/api/stops/:coordinates?", function(req, res) {
         console.log(req.query.lat)
         var lat = parseFloat(req.query.lat)
         var lng = parseFloat(req.query.lng) 
-
+    Subways.aggregate([{
+            $geoNear: {
+                near: { 
+                    type: 'Point',                  
+                    coordinates: [lng, lat]       
+                },
+                spherical: true,
+                distanceField: 'distance.dist',
+                distanceMultiplier: 0.00062,
+                num:25
+            }
+        }],
+        function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(doc)
+                res.json(doc);
+            }
+        })
+   }
+});
+app.get("/api/stations/:coordinates?", function(req, res) {
+    if(req.query.lat) {
+        console.log(req.query.lng)
+        console.log(req.query.lat)
+        var lat = parseFloat(req.query.lat)
+        var lng = parseFloat(req.query.lng) 
     Subways.aggregate([{
             $geoNear: {
                 near: { 
@@ -54,7 +81,7 @@ app.get("/api/stops/:coordinates?", function(req, res) {
                 spherical: true,
                 distanceField: 'distance.dist',
                 distanceMultiplier: 0.00062,
-                num:25
+                num:50
             }
         }],
         function(error, doc) {
